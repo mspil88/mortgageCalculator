@@ -1,0 +1,308 @@
+:root {
+    --bg-color:  #76b4bd;
+    --secondary-color: #5e5656;
+    --tertiary-color: #58668b;
+    --white: #ebf4f6;
+    --main-radius: 4px;
+
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+  }
+
+.nav-container {
+    position: static;
+    border-bottom: 2px solid var(--secondary-color);
+    /* top: 10px;
+    right: 10px; */
+}
+
+nav {
+    position: absolute;
+}
+  details {
+    margin: 10px;
+    position: relative;
+    
+  }
+  summary {
+    writing-mode: vertical-lr;
+    text-align: center;
+    padding: 12px 10px;
+    width: 23px;
+    height: 17px;
+    background-color: var(--bg-color);
+    border: 2px solid var(--secondary-color);
+    border-radius: var(--main-radius);
+    color: var(--secondary-color);
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    transition: transform 200ms ease-in-out 0s;
+    position: relative;
+  }
+  summary::before,
+  summary::after {
+    position: static;
+    top: 0;
+    left: 0;
+  }
+  summary::before {
+    content: "";
+  }
+  summary::after {
+    content: "III";
+    letter-spacing: -1px;
+  }
+  summary:hover {
+    transform: scale(1.1);
+  }
+  summary::marker {
+    font-size: 0;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  details[open] .menu {
+    animation-name: menuAnim;
+  }
+  details[open] summary::before {
+    content: "X";
+  }
+  details[open] summary::after {
+    content: "";
+  }
+  .menu {
+    height: 0;
+    width: fit-content;
+    border-radius: var(--main-radius);
+    background-color: var(--bg-color);
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2);
+    margin-top: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    animation: closeMenu 300ms ease-in-out forwards;
+    position: relative;
+  }
+  .menu a {
+    padding: 5px 5px;
+    margin: 0 5px;
+    margin-bottom: 0;
+    color: var(--secondary-color);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    text-align: center;
+    transition: filter 200ms linear 0s;
+  }
+  .menu a:nth-of-type(1) {
+    padding-top: 24px;
+  }
+  .menu a:nth-last-of-type(1) {
+    border-bottom: none;
+  }
+  .menu a:hover {
+    filter: brightness(200%);
+  }
+  details::before {
+    color: var(--secondary-color);
+    position: relative;
+    margin-left: 80px;
+    padding: 10px 10px;
+    opacity: 0.4;
+  }
+  details[open]::before {
+    animation: fadeMe 300ms linear forwards;
+  }
+  @keyframes menuAnim {
+    0% {
+      height: 0;
+    }
+    100% {
+      height: 312px;
+    }
+  }
+  @keyframes fadeMe {
+    0% {
+      opacity: 0.4;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  
+.calculator-wrapper {
+      margin-top: 20px;
+      color: var(--secondary-color);
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+
+  }
+
+.calculator-wrapper > div {
+    padding: 1rem;
+    color: var(--white);
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    border: 2px solid var(--secondary-color);
+    margin: 10px 10px 10px 10px;
+}
+.mortgage-params {
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
+input, label {
+    display: block;
+    margin-bottom: 10px;
+    /* padding-bottom: 10px;
+    padding-top: 10px; */
+    
+}
+
+input {
+    height: 20px;
+    width: 80%;
+    font-size: 12px;
+    outline: none;
+    padding: 0.375rem 0.75rem;
+    margin-bottom: 10px;
+    background: white;
+    border-radius: 0.25rem;
+    border: 2px solid var(--secondary-color);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    display: inline-block;
+    transition: all 0.3s linear;
+    margin-right: 10%;
+}
+
+select {
+  height: 30px;
+  width: 20%;
+  border-radius: 0.25rem;
+  border: 2px solid var(--secondary-color);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  display: inline-block;
+  cursor: pointer;
+}
+
+
+.term-container {
+    display: inline-block;
+
+}
+
+#term-years, #term-months {
+    width: 30%;
+}
+
+button {
+    border: none;
+    outline: none;
+    height: 40px;
+    font-size: 18px;
+    background: white;
+    color: black;
+    padding: 0.375rem 0.75rem;
+    letter-spacing: 0.1rem;
+    display: inline-block;
+    transition: all 0.3s linear;
+    font-size: 0.875rem;
+    border: 2px solid var(--secondary-color);
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    border-radius: 0.25rem;
+    text-transform: uppercase;
+
+    width: 150px;
+
+}
+
+button:hover {
+    background: var(--tertiary-color);
+    color: var(--white);
+}
+
+
+.btn-container {
+    display: block;
+    float: left;
+    margin-top: 30px;
+}
+
+
+
+.btn {
+    /*margin-left: 10%;*/
+    margin-right: 55px;
+
+}
+
+.results-container {
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+
+.chart-container {
+    grid-column-start: 3;
+    grid-column-end: 5;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title {
+    font-size: 25px;
+}
+
+.results-card {
+    margin-bottom: 30px;
+}
+
+#scenario-tbl {
+  width: 100%;
+  height: 300px;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+#scenario-tbl th, td {
+  font-size: 18px;
+  text-align: center;
+}
+
+#scenario-tbl th, td, tr {
+  border-top: 1px solid #ebf4f6;
+  border-bottom: 1px solid #ebf4f6;
+}
+
+#scenario-tbl tr:hover {
+  background: var(--tertiary-color);
+}
+
+#scenario-tbl tr td:nth-child(1) {
+  display: none;
+}
+
+#scenario-tbl th:nth-child(1) {
+  display: none;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  outline: none;
+  width: 30px;
+  box-shadow: none;
+  font-size: 1rem;
+  padding: none;
+}
+
+.delete-btn:hover {
+  background: none;
+  border: none;
+  outline:none;
+}

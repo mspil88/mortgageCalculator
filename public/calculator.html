@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+        <link rel="stylesheet" href="./styles.css">
+        <title>Mortgage Calculator</title>
+        <script src="https://cdn.plot.ly/plotly-2.3.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+        <div class="nav-container">
+        <details>
+        <summary></summary>
+            <nav class="menu">
+                <a href="/">Home</a>
+                <a href="/calculator">Calculator</a>
+                <a href="/scenarios">Scenarios</a>
+            </nav>
+        </details>
+    </div>
+    <div class="calculator-wrapper">
+        <div class="mortgage-params">
+            <form>
+                <div class="param-group">
+                    <div class="input-container">
+                        <label class="param-label" for="current-bal">Current Balance (£)</label>
+                        <input class="my-input" id="current-bal-input" type="number" name="current-bal" min="0">
+                        
+          
+                            <label class="param-label" for="remaining-term">Remaining Term</label>
+                            <input class="my-input" id="term-years" type="number" name="term-years" min="0" placeholder="years">
+                            <input class="my-input" id="term-months" type="number" name="term-months" min="0" placeholder="months">
+               
+                        <label class="param-label" for="current-rate">Current Interest Rate (%)</label>
+                        <input class="my-input" id="current-rate" type="number" name="current-rate" min="0">
+                        <label class="param-label" for="extra-monthly">Extra Monthly Payment (£)</label>
+                        <input class="my-input" id="extra-monthly" type="number" name="extra-monthly" min="0">
+                        <label class="param-label" for="remaining-term">and/ or Lump Sum (£)</label>
+                        <input class="my-input" id="lump-sum" type="number" name="lump-sum" min="0">
+                        
+                    </div>
+                </div>
+                <div class="btn-container">
+                    <button class="btn" type="button" id="calc-btn">Calculate</button>
+                    <button class="btn" type="button" id="save-btn">Save</button>
+                </div>
+            </form>
+            
+        </div>
+        <div class="results-container" id="results">
+            <div class="results-card" id="current-payment">
+                <h1 class="card-title">Current Monthly Payment</h1>
+                <span class="card-span" id="current-payment-span">-</span>
+            </div>
+            <div class="results-card" id="new-payment">
+                <h1 class="card-title">New Monthly Payment</h1>
+                <span class="card-span" id="new-payment-span">-</span>
+            </div>
+            <div class="results-card" id="term-reducation">
+                <h1 class="card-title">Potential Mortgage Reduction</h1>
+                <span class="card-span" id="term-reduction-span">-</span>
+            </div>
+            <div class="results-card" id="interest-saved">
+                <h1 class="card-title">Potential Interest Saved</h1>
+                <span class="card-span" id="interest-saved-span">-</span>
+            </div>
+        </div>
+        <div class="chart-container" id="mortgage-chart">
+            <div id="elem-select">
+                <select id="view-select">
+                    <option id="sel-option" value="schedule">schedule</option>
+                    <option id="sel-option" value="scenarios">scenarios</option>
+                </select>
+            </div>
+            <div id="table-container">
+
+            </div>
+        </div>
+    </div>
+    
+    <script src="calculator.js"></script>
+    </body>
+</html>
