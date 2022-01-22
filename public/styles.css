@@ -14,126 +14,30 @@ body {
   }
 
 .nav-container {
-    position: static;
-    border-bottom: 2px solid var(--secondary-color);
-    /* top: 10px;
-    right: 10px; */
+    width: 100%;
+    /* background-color: var(--secondary-color); */
+    overflow: auto;
+    height: 100%;
+    border-bottom: 1px solid var(--secondary-color);
 }
 
-nav {
-    position: absolute;
+.nav-container a:hover {
+  color: var(--secondary-color);
 }
-  details {
-    margin: 10px;
-    position: relative;
-    
-  }
-  summary {
-    writing-mode: vertical-lr;
-    text-align: center;
-    padding: 12px 10px;
-    width: 23px;
-    height: 17px;
-    background-color: var(--bg-color);
-    border: 2px solid var(--secondary-color);
-    border-radius: var(--main-radius);
-    color: var(--secondary-color);
-    cursor: pointer;
-    user-select: none;
-    outline: none;
-    transition: transform 200ms ease-in-out 0s;
-    position: relative;
-  }
-  summary::before,
-  summary::after {
-    position: static;
-    top: 0;
-    left: 0;
-  }
-  summary::before {
-    content: "";
-  }
-  summary::after {
-    content: "III";
-    letter-spacing: -1px;
-  }
-  summary:hover {
-    transform: scale(1.1);
-  }
-  summary::marker {
-    font-size: 0;
-  }
-  summary::-webkit-details-marker {
-    display: none;
-  }
-  details[open] .menu {
-    animation-name: menuAnim;
-  }
-  details[open] summary::before {
-    content: "X";
-  }
-  details[open] summary::after {
-    content: "";
-  }
-  .menu {
-    height: 0;
-    width: fit-content;
-    border-radius: var(--main-radius);
-    background-color: var(--bg-color);
-    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2);
-    margin-top: 4px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    overflow: hidden;
-    animation: closeMenu 300ms ease-in-out forwards;
-    position: relative;
-  }
-  .menu a {
-    padding: 5px 5px;
-    margin: 0 5px;
-    margin-bottom: 0;
-    color: var(--secondary-color);
-    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-    text-decoration: none;
-    text-align: center;
-    transition: filter 200ms linear 0s;
-  }
-  .menu a:nth-of-type(1) {
-    padding-top: 24px;
-  }
-  .menu a:nth-last-of-type(1) {
-    border-bottom: none;
-  }
-  .menu a:hover {
-    filter: brightness(200%);
-  }
-  details::before {
-    color: var(--secondary-color);
-    position: relative;
-    margin-left: 80px;
-    padding: 10px 10px;
-    opacity: 0.4;
-  }
-  details[open]::before {
-    animation: fadeMe 300ms linear forwards;
-  }
-  @keyframes menuAnim {
-    0% {
-      height: 0;
-    }
-    100% {
-      height: 312px;
-    }
-  }
-  @keyframes fadeMe {
-    0% {
-      opacity: 0.4;
-    }
-    100% {
-      opacity: 0;
-    }
-  }
+
+.nav-container a:active {
+  color: var(--secondary-color);
+}
+
+.nav-container a {
+  float: left;
+  text-align: center;
+  padding: 12px;
+  color: white;
+  text-decoration: none;
+  font-size: 17px;
+}
+
   
 .calculator-wrapper {
       margin-top: 20px;
@@ -164,7 +68,7 @@ input, label {
     
 }
 
-input {
+input, #my-select   {
     height: 20px;
     width: 80%;
     font-size: 12px;
@@ -180,7 +84,7 @@ input {
     margin-right: 10%;
 }
 
-select {
+#view-select {
   height: 30px;
   width: 20%;
   border-radius: 0.25rem;
@@ -190,13 +94,29 @@ select {
   cursor: pointer;
 }
 
+#my-select  {
+  height: 40px;
+  width: 40%;
+  font-size: 12px;
+  outline: none;
+  padding: 0.375rem 0.75rem;
+  margin-bottom: 10px;
+  background: white;
+  border-radius: 0.25rem;
+  border: 2px solid var(--secondary-color);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  display: inline-block;
+  transition: all 0.3s linear;
+  margin-right: 10%;
+}
+
 
 .term-container {
     display: inline-block;
 
 }
 
-#term-years, #term-months {
+#term-years, #term-months, #price-min, #price-max {
     width: 30%;
 }
 
@@ -232,6 +152,7 @@ button:hover {
     display: block;
     float: left;
     margin-top: 30px;
+    margin-bottom: 10px;
 }
 
 
@@ -254,6 +175,14 @@ button:hover {
     flex-direction: column;
 }
 
+.price-sea-container {
+  grid-column-start: 2;
+  grid-column-end: 5;
+  display: flex;
+  flex-direction: column;
+}
+
+
 .card-title {
     font-size: 25px;
 }
@@ -262,11 +191,12 @@ button:hover {
     margin-bottom: 30px;
 }
 
-#scenario-tbl {
+#scenario-tbl, #search-tbl {
   width: 100%;
   height: 300px;
   margin-top: 20px;
   border-collapse: collapse;
+  /* position: relative; */
 }
 
 #scenario-tbl th, td {
@@ -291,6 +221,24 @@ button:hover {
   display: none;
 }
 
+#search-tbl th, td {
+  font-size: 18px;
+  text-align: center;
+}
+
+#search-tbl th, td, tr {
+  border-top: 1px solid #ebf4f6;
+  border-bottom: 1px solid #ebf4f6;
+}
+
+#search-tbl tr:hover {
+  background: var(--tertiary-color);
+}
+
+#price-sort-btn:hover {
+  color: var(--secondary-color);
+}
+
 .delete-btn {
   background: none;
   border: none;
@@ -306,3 +254,180 @@ button:hover {
   border: none;
   outline:none;
 }
+
+#post-alert {
+  text-transform: capitalize;
+}
+
+@keyframes fade-slide-in {
+  from {
+      transform: translateY(-5rem);
+  }
+  to {
+      transform: translateY(0);
+  }
+
+}
+
+#validation-list{
+  display: inline-block;
+  list-style-type: square;
+
+}
+
+#validation-list li {
+  width: 100%;
+}
+
+.calc-input-container {
+  position: fixed;
+  z-index: 100;
+  background: var(--tertiary-color);
+  color: var(--white);
+  border-radius: 10px;
+  width: 50%;
+  top: 30vh;
+  left: 25%;
+  border: 1px solid var(--white);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  pointer-events: none;
+  display: none;
+  padding-left: 5%;
+  padding-top:10px;
+}
+
+
+#input-background {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 10;
+  pointer-events: none;
+  display: none;
+}
+
+#input-background.visible {
+  display: block;
+  pointer-events: all;
+}
+
+.calc-input-container.visible {
+  display: block;
+  animation: fade-slide-in 0.3s ease-out forwards;
+}
+
+.double-range-slider {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  outline: none;
+  /* margin-top: 10px; */
+  margin-bottom: 20px;
+
+
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+   appearance: none;
+   width: 80%;
+   outline: none;
+   position: absolute;
+   margin: auto;
+   top: 0;
+   bottom:0;
+   background-color: transparent;
+   pointer-events: none;
+   /* border: 1px solid white; */
+   border: none;
+   outline: none;
+   box-shadow: none;
+}
+
+.track-slider {
+  width: 80%;
+  height: 5px;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  /* border: none; */
+}
+
+
+input[type="range"]::-webkit-slider-runnable-track{
+  -webkit-appearance: none;
+  height: 5px;
+}
+input[type="range"]::-moz-range-track{
+  -moz-appearance: none;
+  height: 5px;
+}
+input[type="range"]::-ms-track{
+  appearance: none;
+  height: 5px;
+}
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance: none;
+  height: 1.7em;
+  width: 1.7em;
+  background-color: white;
+  border: 1px solid var(--secondary-color);
+  cursor: pointer;
+  margin-top: -9px;
+  pointer-events: auto;
+  border-radius: 50%;
+}
+input[type="range"]::-moz-range-thumb{
+  -webkit-appearance: none;
+  height: 1.7em;
+  width: 1.7em;
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: red;
+  pointer-events: auto;
+}
+input[type="range"]::-ms-thumb{
+  appearance: none;
+  height: 1.7em;
+  width: 1.7em;
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: #3264fe;
+  pointer-events: auto;
+}
+input[type="range"]:active::-webkit-slider-thumb{
+  background-color: #ffffff;
+  border: 5px solid var(--secondary-color);
+}
+
+/* .slider-vals {
+  background-color:blue;
+  width: 30%;
+  position: relative;
+  margin: auto;
+  padding: 10px 0;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 25px;
+  color: white;
+} */
+
+/* .slider-vals:before{
+  content: "";
+  position: absolute;
+  height: 0;
+  width: 0;
+  border-top: 15px solid #3264fe;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  margin: auto;
+  bottom: -14px;
+  left: 0;
+  right: 0;
+} */
+

@@ -11,14 +11,22 @@
     </head>
     <body>
         <div class="nav-container">
-        <details>
-        <summary></summary>
-            <nav class="menu">
-                <a href="/">Home</a>
-                <a href="/calculator">Calculator</a>
-                <a href="/scenarios">Scenarios</a>
-            </nav>
-        </details>
+                <a class="active" href="/"><i class="fa fa-fw fa-home"></i> Home</a>
+                <a href="/calculator.html"><i class="fa fa-fw fa-calculator"></i> Calculator</a>
+                <a href="/scenarios"><i class="fa fa-fw fa-search"></i> Prices</a>
+    </div>
+    <div class = "input-background" id="input-background"></div>
+    <div class="validation-container" id="validation-container">
+        <div class="calc-input-container" id="calc-input-add">
+            <p>Invalid Inputs Found</p>
+            <p>Please check that you have correctly specified:</p>
+            <ul id="validation-list">
+                <li>Your current balance</li>
+                <li>Your remaining term</li>
+                <li>Your current interest rate</li>
+                <li>Your planned extra monthly payment</li>
+            </ul>
+        </div>
     </div>
     <div class="calculator-wrapper">
         <div class="mortgage-params">
@@ -46,6 +54,7 @@
                     <button class="btn" type="button" id="calc-btn">Calculate</button>
                     <button class="btn" type="button" id="save-btn">Save</button>
                 </div>
+                <div id="post-alert"></div>
             </form>
             
         </div>

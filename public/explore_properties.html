@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+        <link rel="stylesheet" href="./styles.css">
+        <title>Mortgage Calculator</title>
+        <script src="https://cdn.plot.ly/plotly-2.3.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+        <div class="nav-container">
+                <a class="active" href="/"><i class="fa fa-fw fa-home"></i> Home</a>
+                <a href="/calculator.html"><i class="fa fa-fw fa-calculator"></i> Calculator</a>
+                <a href="/scenarios"><i class="fa fa-fw fa-search"></i> Prices</a>
+    </div>
+    <div class="calculator-wrapper">
+        <div class="mortgage-params">
+            <form autocomplete="off">
+                <div class="param-group">
+                    <div class="input-container">
+                        <div class="slider-vals">
+                            <label class="param-label" for="slider-vals">Year</label>
+                            <span id="range-min">2006</span>
+                            <span>&dash;</span>
+                            <span id="range-max">2021</span>
+                        </div>
+                        <div class="double-range-slider">
+                            <div class="track-slider" id="track-slider"></div>
+                            <input id="slider-min" oninput="slideMin()" type="range" min="2006" max="2021" value="2006">
+                            <input id="slider-max" oninput="slideMax()" type="range" min="2006" max="2021" value="2021">
+
+                        </div>
+
+                        <label class="param-label" for="remaining-term">Price range</label>
+                            <input class="my-input" id="price-min" type="number" name="price-min" min="0" placeholder="minimum price">
+                            <input class="my-input" id="price-max" type="number" name="price-max" min="0" placeholder="maximum price">
+                            <label class="param-label" for="extra-monthly">Property type</label>
+                            <select class="my-select" id="my-select" name="house-type">
+                                <option value="detached">Detached</option>
+                                <option value="semi-detached">semi-detached</option>
+                                <option value="terrace">terrace</option>
+                                <option value="flat">flat</option>
+                            </select>  
+                        
+                        <label class="param-label" for="post-code">Postcode</label>
+                        <input class="my-input" id="post-code" type="text" name="post-code" maxlength="8" autocomplete="off">
+                        
+                        
+                 
+                        <label class="param-label" for="city">City</label>
+                        <input class="my-input" id="city" type="text" name="city" autocomplete="off">
+                        <label class="param-label" for="region">Region</label>
+                        <input class="my-input" id="region" type="text" name="region" autocomplete="off">
+                        
+                    </div>
+                </div>
+                <div class="btn-container">
+                    <button class="btn" type="button" id="sea-btn">Search</button>
+                
+                </div>
+                
+            </form>
+            
+        </div>
+
+        <div class="price-sea-container" id="mortgage-chart">
+            <div>My Search Results</div>
+            <div id="table-container">
+
+            </div>
+        </div>
+   
+    
+    <script src="explore-properties.js"></script>
+    </body>
+</html>

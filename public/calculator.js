@@ -22,12 +22,51 @@ const tableContainer = document.getElementById("table-container");
 const currentScheduleColor = "rgb(94,86,86)";
 const overpayScheduleColor = "rgb(88,102,139)";
 
+const postAlert = document.getElementById("post-alert");
+
+const inputBackground = document.getElementById("input-background");
+const validationContainer = document.querySelector(".calc-input-container");
+const validationParent = document.querySelector(".validation-container");
+
 let currentPaymentMonthly = 0;
 let newMonthlyPayment = 0;
 let newTermReduction = '';
 let interestSaving = 0;
 let scheduleToPlot;
 let chartExist = false;
+
+const toggleBackground = () => {
+    inputBackground.classList.toggle('visible');
+}
+
+const toggleValidationContainer = () => {
+    validationContainer.classList.toggle('visible');
+    validationParent.classList.toggle('visible');
+}
+
+
+const setPostAlert = (alertType) => {
+    if(alertType === "success") {
+        postAlert.style.display = "block";
+        postAlert.textContent = "scenario added";
+        postAlert.classList.add('text-success')
+    } else if(alertType === "fail") {
+        postAlert.style.display = "block";
+        postAlert.textContent = "error, try again";
+    } else {
+        setTimeout(()=> {
+            postAlert.style.display = "none";
+            postAlert.classList.remove('text-success');
+        }, 3000)
+    }
+}
+
+const checkInvalidInputs = (currentBalance, termyears, currentInterestRate, extraMonthlyPayment) => {
+    if(currentBalance === undefined || termyears === undefined || currentInterestRate === undefined ||
+        extraMonthlyPayment === undefined) {
+            return true;
+        }
+}
 
 const currentMonthlyPayment = (rate, n, amount) => {
     //consider how the rate is input in the first place
@@ -233,33 +272,54 @@ const dataToSend = (balance, term, rate, extraPayment=0, lumpSum=0, monthlyPayme
             }
 }
 
+const clearScenarioTable = () => {
+    const scenarioTable = document.getElementById("scenario-tbl");
+    scenarioTable.remove();
+    tblFlag = false;
+}
+
 
 
 calcButton.addEventListener("click", ()=> {
-     const curMonthlyPayment = Number(currentMonthlyPayment(interestRate, termYears, currentBal));
-     currentPaymentMonthly = curMonthlyPayment;
-     const extraMonthlyVal = extraPayment.value;
-     newMonthlyPayment = Number(extraMonthlyVal) + Number(curMonthlyPayment);
-     setValue(currentPayment, `${sterlingFormatter.format(roundDp(curMonthlyPayment, 2))}`)
-     setValue(newPayment, 
-        `${sterlingFormatter.format(roundDp(Number(curMonthlyPayment) + Number(extraMonthlyVal), 2))}`);
-     [newT, totalInterest, totalInterestOver, w_o_overpay, w_overpay, x_axis, lump] = newTerm(interestRate, currentBal, termYears, termMonths, extraPayment, lumpSum);
-     newTermReduction = newT;
-     const savedInterest = totalInterest - totalInterestOver - lump;
-     interestSaving = savedInterest;
-     setValue(termReduction, `${parseTermReduction(decimalToYear(newT))}`);
-     setValue(interestSaved, `${sterlingFormatter.format(roundDp(savedInterest, 2))}`);
-     const schedulePlot = [createPlotlyTrace(x_axis, w_o_overpay, currentScheduleColor, "without overpayment"), 
-                            createPlotlyTrace(x_axis, w_overpay, overpayScheduleColor, "with overpayments", dash=true)];
-     scheduleToPlot = schedulePlot;
+     const invalidInputs = checkInvalidInputs(currentBal.value, termYears.value, interestRate.value, extraPayment.value) === undefined ? true : false;
+     console.log(invalidInputs);
+
+     if(!invalidInputs) { 
+        const curMonthlyPayment = Number(currentMonthlyPayment(interestRate, termYears, currentBal));
+        currentPaymentMonthly = curMonthlyPayment;
+        const extraMonthlyVal = extraPayment.value;
+        newMonthlyPayment = Number(extraMonthlyVal) + Number(curMonthlyPayment);
+        setValue(currentPayment, `${sterlingFormatter.format(roundDp(curMonthlyPayment, 2))}`)
+        setValue(newPayment, 
+            `${sterlingFormatter.format(roundDp(Number(curMonthlyPayment) + Number(extraMonthlyVal), 2))}`);
+        [newT, totalInterest, totalInterestOver, w_o_overpay, w_overpay, x_axis, lump] = newTerm(interestRate, currentBal, termYears, termMonths, extraPayment, lumpSum);
+        newTermReduction = newT;
+        const savedInterest = totalInterest - totalInterestOver - lump;
+        interestSaving = savedInterest;
+        setValue(termReduction, `${parseTermReduction(decimalToYear(newT))}`);
+        setValue(interestSaved, `${sterlingFormatter.format(roundDp(savedInterest, 2))}`);
+        const schedulePlot = [createPlotlyTrace(x_axis, w_o_overpay, currentScheduleColor, "without overpayment"), 
+                                createPlotlyTrace(x_axis, w_overpay, overpayScheduleColor, "with overpayments", dash=true)];
+        scheduleToPlot = schedulePlot;
 
 
-    //const tblContainer = document.createElement("div");
-    //chartContainer.appendChild(tblContainer);
-    Plotly.newPlot(tableContainer, schedulePlot, layout, config);
+        //const tblContainer = document.createElement("div");
+        //chartContainer.appendChild(tblContainer);
+        if(viewSelector.value === "scenarios") {
+            viewSelector.selectedIndex = 0;
+            clearScenarioTable();
+            Plotly.newPlot(tableContainer, schedulePlot, layout, config);
 
-   
-     }   
+        } 
+        else { 
+            Plotly.newPlot(tableContainer, schedulePlot, layout, config);
+        };
+    } else {
+        toggleBackground();
+        toggleValidationContainer();
+    } 
+
+}   
     
 )
 
@@ -270,9 +330,12 @@ saveButton.addEventListener('click', async ()=> {
     console.log(data);
     try {
         await axios.post("/api/v1/scenarios", data)
+        setPostAlert("success");
     } catch (error) {
         console.log(error);
+        setPostAlert("fail");
     }
+    setPostAlert("timeout");
 })
 
 
@@ -293,33 +356,8 @@ const showScenarios = async() => {
     }
 };
 
-//refactor - need to clear out elements so they don't keep stacking
-
-let tblFlag = false;
-let chartFlag = false;
-
-viewSelector.addEventListener("change", async ()=> {
-    console.log(viewSelector.value);
-    if(viewSelector.value === "schedule" && scheduleToPlot) {
-        console.log("schedule")
-        if(tblFlag) {
-            console.log("table found");
-            const scenarioTable = document.getElementById("scenario-tbl");
-            scenarioTable.remove();
-            tblFlag = false;
-        }
-        Plotly.newPlot(chartContainer, scheduleToPlot, layout, config);
-        chartFlag = true;
-
-    } else if(viewSelector.value === "scenarios"){
-        console.log("scenarios")
-        if(chartFlag) {
-
-            Plotly.purge(chartContainer);
-            chartFlag = false;
-        }
-        //create table element and append making get request
-        //get request works but need to destructure the promise object
+const renderScenarioTable = async(elemContainer) => {
+        
         data = await showScenarios();
         let idx = 0;
         let tbl = `<table id="scenario-tbl">
@@ -352,9 +390,35 @@ viewSelector.addEventListener("change", async ()=> {
             idx+=1;
         }
         tbl += `</table>`;
-        //const tblContainer = document.createElement("div");
-        //chartContainer.append(tblContainer);
-        tableContainer.innerHTML = tbl;
+        elemContainer.innerHTML = tbl;
+
+} 
+
+//refactor - need to clear out elements so they don't keep stacking
+
+let tblFlag = false;
+let chartFlag = false;
+
+viewSelector.addEventListener("change", async ()=> {
+    console.log(viewSelector.value);
+    if(viewSelector.value === "schedule" && scheduleToPlot) {
+        console.log("schedule")
+        if(tblFlag) {
+            clearScenarioTable();
+        }
+        Plotly.newPlot(chartContainer, scheduleToPlot, layout, config);
+        chartFlag = true;
+    }
+    else if(viewSelector.value === "schedule" && !scheduleToPlot && tblFlag) {
+        clearScenarioTable();        
+    }
+     else if(viewSelector.value === "scenarios"){
+        console.log("scenarios")
+        if(chartFlag) {
+            Plotly.purge(chartContainer);
+            chartFlag = false;
+        }
+        renderScenarioTable(tableContainer);
         tblFlag = true;
        
     }
@@ -370,9 +434,14 @@ document.body.addEventListener("click", async (event)=> {
         console.log(idToDelete);
         try {
             await axios.delete(`/api/v1/scenarios/${idToDelete}`);
-            showScenarios();
+            renderScenarioTable(tableContainer);
         } catch (error) {
             console.log(error);
         }
     }
+})
+
+inputBackground.addEventListener("click", ()=> {
+    toggleBackground();
+    toggleValidationContainer();
 })

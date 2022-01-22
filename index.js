@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 const scenarios = require("./routes/scenarios");
+const prices = require("./routes/house-prices");
+const pricesAll = require("./routes/house-price-all");
 const logger = require("./middleware/logger");
 const connectDB = require("./db/connect");
 require("dotenv").config();
@@ -13,6 +15,8 @@ app.use(express.json());
 app.use(logger);
 
 app.use("/api/v1/scenarios", scenarios);
+app.use("/api/v1/prices", prices);
+app.use("/api/v1/prices_all", pricesAll);
 app.use(notFound);
 app.use(errorHandler);
 
